@@ -13,15 +13,8 @@
     </br>
     </br>
     <input type="days" id="inputday" placeholder="">
-    </br>
-</br>
-    
     <input type="radio" id="i" name="options" value="i">
     <input type="radio" id="c" name="options" value="c">
-
-    
-    </br>
-    </br>
     <button id="fetchButton" onclick="">Button</button>
     </br>
     </br>
@@ -32,9 +25,8 @@
         document.getElementById("fetchButton").addEventListener("click", function () {
             var inputText = document.getElementById("inputText").value;
             var inputDays = document.getElementById("inputday").value;
-
-            inputDays =40
-            inputText = "92323232,2323,2323,32,23,2,32,32";
+            // inputDays =40
+            // inputText = "92323232,2323,2323,32,23,2,32,32";
             var option = false;
             const radioButtonc = document.getElementById("c");
             const radioButtoni = document.getElementById("i");
@@ -45,11 +37,6 @@
             if (radioButtoni.checked) {
                 option = false;
             }
-            
-            console.log(option);
-            
-
-
             var valuesArray = inputText.split(",").map(value => value.trim());
             fetchData(valuesArray, inputDays, option);
         });
