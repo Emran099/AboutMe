@@ -9,16 +9,23 @@
 
 <body>
     <!-- <input type="text" id="inputText" placeholder="Enter some text"> -->
-    <textarea id="inputText" name="w3review" rows="4" cols="50"></textarea>
+    
+    <textarea style="font-size:xx-large; width: 99%;" id="inputText" name="w3review" rows="4" cols="40" placeholder="923001234567,923001234567,923001234567" ></textarea>
     </br>
     </br>
-    <input type="days" id="inputday" placeholder="">
+    Days
+    <input style="width: 50px;" type="days" id="inputday" placeholder="15" value="15">
+    
     <input type="radio" id="i" name="options" value="i">
+    CDR
     <input type="radio" id="c" name="options" value="c">
-    <button id="fetchButton" onclick="">Button</button>
+    IMEI
+    &nbsp;&nbsp;
+    <button style="width: 120px; height: 30px;" id="fetchButton" onclick="">Button</button>
+
     </br>
-    </br>
-    <div id="result"></div>
+    <div style="font-size: large; width: 95%;  word-wrap: break-word;" id="result"></div>
+    <div>_________________________________________________</div>
 
     <script>
 
@@ -80,7 +87,7 @@
         }
 
         function GetJString(valuesArray, dateObject, radio) {
-            var JString = "<p> J </p>";
+            var JString = "<p> Jazz/Warid </p>";
             var typ = "";
 
             if(radio)
@@ -90,14 +97,14 @@
 
             valuesArray.forEach(value => {
                 if (value !== "") {
-                    JString = JString + "<p> "+typ+";" + value + ";"+dateObject.sdate+"/"+dateObject.smonth+"/"+dateObject.syear+";"+dateObject.cdate+"/"+dateObject.cmonth+"/"+dateObject.cyear+"; </p>";
+                    JString = JString + " "+typ+";" + value + ";"+dateObject.sdate+"/"+dateObject.smonth+"/"+dateObject.syear+";"+dateObject.cdate+"/"+dateObject.cmonth+"/"+dateObject.cyear+"; </br>";
                 }
             });
             return JString;
         }
         function GetZString(valuesArray, dateObject, radio) {
 
-            var ZString = "<p> Z </p>";
+            var ZString = "<p> Zong </p>";
             if(radio)
                 ZString = ZString + "<p> I;"
             else
@@ -114,7 +121,7 @@
             return ZString;
         }
         function GetTString(valuesArray, dateObject, radio) {
-            var ZString = "<p> T </p>";
+            var ZString = "<p> Telenor </p>";
            
             if(radio)
             ZString = ZString + "<p> tpi;"
@@ -131,7 +138,7 @@
             return ZString;
         }
         function GetUString(valuesArray, dateObject, radio) {
-            var ZString = "<p> U </p>";
+            var ZString = "<p> Ufone </p>";
 
             if(radio)
             ZString = ZString + "<p> IMEI"
