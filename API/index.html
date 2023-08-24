@@ -1,4 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+</head>
+
+<body>
+    <!-- <input type="text" id="inputText" placeholder="Enter some text"> -->
+    <textarea id="inputText" name="w3review" rows="4" cols="50"></textarea>
+    </br>
+    </br>
+    <input type="days" id="inputday" placeholder="">
+    </br>
+</br>
+    
+    <input type="radio" id="i" name="options" value="i">
+    <input type="radio" id="c" name="options" value="c">
+
+    
+    </br>
+    </br>
+    <button id="fetchButton" onclick="">Button</button>
+    </br>
+    </br>
+    <div id="result"></div>
+
+    <script>
+
+        document.getElementById("fetchButton").addEventListener("click", function () {
+            var inputText = document.getElementById("inputText").value;
+            var inputDays = document.getElementById("inputday").value;
+
+            inputDays =40
+            inputText = "92323232,2323,2323,32,23,2,32,32";
+            var option = false;
+            const radioButtonc = document.getElementById("c");
+            const radioButtoni = document.getElementById("i");
+    
+            if (radioButtonc.checked) {
+                option = true;
+            }
+            if (radioButtoni.checked) {
+                option = false;
+            }
+            
+            console.log(option);
+            
+
+
+            var valuesArray = inputText.split(",").map(value => value.trim());
+            fetchData(valuesArray, inputDays, option);
+        });
+
+        function getRadioValue() {
+            const radioGroup = document.getElementsByName("options");
+            for (const radioButton of radioGroup) {
+                if (radioButton.checked) {
+                    return true;
+                    break;
+                }
+             }
+         }
+        
+
+        function fetchData(valuesArray, inputDays, radio) {
+
+            var startdate = getOlderDateByDays(inputDays);
+            var currentDate = new Date();
+
+            sdate = isSingleDigit(startdate.getDate());
+            smonth = isSingleDigit(startdate.getMonth()+1);
+            syear = isSingleDigit(startdate.getFullYear());
+            cdate = isSingleDigit(currentDate.getDate());
+            cmonth = isSingleDigit(currentDate.getMonth()+1);
+            cyear = isSingleDigit(currentDate.getFullYear());
+
+            const dateObject = {
+                sdate: sdate, smonth: smonth, syear: syear,
+                cdate: cdate, cmonth: cmonth, cyear: cyear
+            };
+             
+            var JString = GetJString(valuesArray, dateObject, radio);
+            var ZString = GetZString(valuesArray, dateObject, radio);
+            var TString = GetTString(valuesArray, dateObject, radio);
+            var UString = GetUString(valuesArray, dateObject, radio);
+
+            var responseData = "<p>" + JString + ZString + TString + UString + "</p>";
+            var resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = responseData;
+        }
+
+        function GetJString(valuesArray, dateObject, radio) {
+            var JString = "<p> J </p>";
+            var typ = "";
+
+            if(radio)
+            typ="I";
+            else
+            typ="A";
+
+            valuesArray.forEach(value => {
+                if (value !== "") {
+                    JString = JString + "<p> "+typ+";" + value + ";"+dateObject.sdate+"/"+dateObject.smonth+"/"+dateObject.syear+";"+dateObject.cdate+"/"+dateObject.cmonth+"/"+dateObject.cyear+"; </p>";
+                }
+            });
+            return JString;
+        }
+        function GetZString(valuesArray, dateObject, radio) {
+
+            var ZString = "<p> Z </p>";
+            if(radio)
+                ZString = ZString + "<p> I;"
+            else
+                ZString = ZString + "<p> A;"
+
+            valuesArray.forEach(value => {
+                if (value !== "") {
+                    ZString = ZString + value + ",";
+                }
+            });
+            ZString = ZString + ";"+dateObject.sdate+"/"+dateObject.smonth+"/"+dateObject.syear+";"+dateObject.cdate+"/"+dateObject.cmonth+"/"+dateObject.cyear+"; </p>";
+            ZString = ZString.replace(",;", ";");
+
+            return ZString;
+        }
+        function GetTString(valuesArray, dateObject, radio) {
+            var ZString = "<p> T </p>";
+           
+            if(radio)
+            ZString = ZString + "<p> tpi;"
+            else
+            ZString = ZString + "<p> tpn:"
+
+            valuesArray.forEach(value => {
+                if (value !== "") {
+                    ZString = ZString + value + ",";
+                }
+            });
+            ZString = ZString + ":"+dateObject.sdate+"-"+dateObject.smonth+"-"+dateObject.syear+":"+dateObject.cdate+"-"+dateObject.cmonth+"-"+dateObject.cyear+": </p>";
+            ZString = ZString.replace(",:", ":");
+            return ZString;
+        }
+        function GetUString(valuesArray, dateObject, radio) {
+            var ZString = "<p> U </p>";
+
+            if(radio)
+            ZString = ZString + "<p> IMEI"
+            else
+            ZString = ZString + "<p> MSISDN"
+
+            ZString = ZString + "|Both|"+dateObject.smonth+"/"+dateObject.sdate+"/"+dateObject.syear+"|"+dateObject.cmonth+"/"+dateObject.cdate+"/"+dateObject.cyear+"|"
+            valuesArray.forEach(value => {
+                if (value !== "") {
+                    ZString = ZString + value + ":";
+                }
+            });
+            ZString = ZString + "</p>";
+            return ZString;
+        }
+
+        function getOlderDateByDays(days) {
+            const currentDate = new Date();
+            const olderDate = new Date(currentDate);
+            olderDate.setDate(currentDate.getDate() - days);
+            return olderDate;
+        }
+        function isSingleDigit(number) {
+            if (number < 10)
+                return "0" + number;
+            else
+                return number;
+        }
+
+    </script>
+</body>
+
+</html>
+
+
+<!-- FIR CDR Required against below numbers
+
+Jazz/warid/Zong 
+
+A;92321XXXXXXX;01/01/2023;24/02/2023;
+
+ 
+
+Telenor
+
+tpn:92345XXXXXXX:01-01-2023:24-02-2023:
+
+ 
+
+Ufone (Attached Ufone.txt) MM/DD/YYYY
+
+MSISDN|Both|01/01/2023|02/24/2023|92333XXXXXXX -->
+
+<!-- 
+
+document.getElementById("convertButton").addEventListener("click", function() {
+  var inputText = document.getElementById("inputText").value;
+  var valuesArray = inputText.split(",").map(value => value.trim());
+
+  displayList(valuesArray);
+});
+
+function displayList(valuesArray) {
+  var resultUl = document.getElementById("result");
+  resultUl.innerHTML = "";  // Clear previous list items
+
+  valuesArray.forEach(value => {
+      if (value !== "") {
+          var listItem = document.createElement("li");
+          listItem.textContent = value;
+          resultUl.appendChild(listItem);
+      }
+  });
+} -->
+
+
+
+
+
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +233,9 @@
     <title>Ajax API Call</title>
 </head>
 <body>
+
+
+
     <h1>Ajax API Call Example</h1>
     <button id="loadData">Load Data</button>
     <div id="result"></div>
@@ -31,4 +260,4 @@
     </script>
 </body>
 </html>
-
+ -->
